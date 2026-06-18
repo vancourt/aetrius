@@ -1,0 +1,185 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body, #app {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #111827;
+}
+::-webkit-scrollbar-thumb {
+  background: #374151;
+  border-radius: 3px;
+}
+
+.chat-scroll {
+  scroll-behavior: smooth;
+}
+
+.prose pre {
+  background: #111111;
+  padding: 12px;
+  border-radius: 6px;
+  overflow-x: auto;
+  white-space: pre;
+}
+
+.prose code {
+  background: #1e1e2e;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 0.875em;
+}
+
+.prose pre code {
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+  white-space: pre;
+}
+
+.chat-code-block {
+  background: #111111;
+  border: 1px solid #2f2f2f;
+  border-radius: 18px;
+  margin: 0.75em 0;
+  overflow: hidden;
+  white-space: normal;
+}
+
+.chat-code-header {
+  align-items: center;
+  background: #161616;
+  color: #f3f4f6;
+  display: flex;
+  font-size: 0.75rem;
+  font-weight: 700;
+  justify-content: space-between;
+  padding: 0.7rem 1rem;
+}
+
+.code-copy-btn {
+  background: transparent;
+  border: 1px solid #404040;
+  border-radius: 999px;
+  color: #d1d5db;
+  cursor: pointer;
+  font-size: 0.7rem;
+  line-height: 1;
+  padding: 0.35rem 0.55rem;
+}
+
+.code-copy-btn:hover {
+  background: #262626;
+  color: #ffffff;
+}
+
+.chat-code-block pre {
+  background: #111111;
+  border-radius: 0;
+  margin: 0;
+  padding: 0.95rem 1rem 1.1rem;
+}
+
+.chat-code-block code {
+  background: transparent;
+  color: #e5e7eb;
+  display: block;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.86rem;
+  line-height: 1.6;
+  padding: 0;
+  tab-size: 2;
+  white-space: pre;
+}
+
+.prose h1, .prose h2, .prose h3, .prose h4 {
+  color: #e5e7eb;
+  font-weight: 600;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+}
+
+.prose h1 { font-size: 1.25em; }
+.prose h2 { font-size: 1.15em; }
+.prose h3 { font-size: 1.05em; }
+
+.prose ul, .prose ol {
+  padding-left: 1.5em;
+  margin: 0.5em 0;
+}
+
+.prose li {
+  margin: 0.25em 0;
+}
+
+.prose blockquote {
+  border-left: 3px solid #4b5563;
+  padding-left: 1em;
+  margin: 0.5em 0;
+  color: #9ca3af;
+}
+
+.prose a {
+  color: #60a5fa;
+  text-decoration: underline;
+}
+
+.prose table {
+  border-collapse: collapse;
+  margin: 0.5em 0;
+  font-size: 0.875em;
+}
+
+.prose th, .prose td {
+  border: 1px solid #374151;
+  padding: 4px 8px;
+  text-align: left;
+}
+
+.prose th {
+  background: #1f2937;
+}
+
+.prose hr {
+  border-color: #374151;
+  margin: 1em 0;
+}
+
+.prose strong {
+  color: #f3f4f6;
+  font-weight: 600;
+}
+
+.prose p {
+  margin: 0.25em 0;
+}
+
+.prose {
+  white-space: pre-wrap;
+}
+
+.prose > * {
+  white-space: pre-wrap;
+}
+
+.prose .chat-code-block,
+.prose .chat-code-block * {
+  white-space: normal;
+}
+
+.prose .chat-code-block pre,
+.prose .chat-code-block code {
+  white-space: pre;
+}
+
+.prose .chat-code-block code * {
+  white-space: pre;
+}

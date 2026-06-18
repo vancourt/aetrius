@@ -1,0 +1,9 @@
+node_modules/
+dist/
+release/
+*.db
+*.log
+.vite/
+.vite-port
+*.rar
+*.zip
