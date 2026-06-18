@@ -10,19 +10,28 @@
 
 ```
 
-**Oráculo de Decisão · Engineering Council · AI Triad**
+<br />
 
-[![Electron](https://img.shields.io/badge/Electron-30+-47848F?logo=electron&logoColor=white)](https://www.electronjs.org/)
-[![Vue.js](https://img.shields.io/badge/Vue-3-4FC08D?logo=vue.js&logoColor=white)](https://vuejs.org/)
-[![Playwright](https://img.shields.io/badge/Playwright-1.45-45BA4B?logo=playwright&logoColor=white)](https://playwright.dev/)
-[![DeepSeek](https://img.shields.io/badge/DeepSeek-R1_|_V3-4F46E5?logo=deepseek&logoColor=white)]()
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)]()
+# **AETRIUS**
+
+**Oráculo de Decisão · Engineering Council · AI Triad**
 
 <br />
 
-> **Three AIs deliberate. One decision emerges.**
+[![FREE](https://img.shields.io/badge/💯_100%25_FREE-sem_api_key-22c55e?style=for-the-badge)]()
+[![Electron](https://img.shields.io/badge/Electron-30+-47848F?logo=electron&logoColor=white)](https://www.electronjs.org/)
+[![Vue.js](https://img.shields.io/badge/Vue-3-4FC08D?logo=vue.js&logoColor=white)](https://vuejs.org/)
+[![Playwright](https://img.shields.io/badge/Playwright-1.45-45BA4B?logo=playwright&logoColor=white)](https://playwright.dev/)
+[![DeepSeek](https://img.shields.io/badge/DeepSeek-R1_|_V3-4F46E5)]()
+
+<br />
+
+> ### 🤯 Zero API keys. Zero subscriptions. Zero gastos.
 >
-> ChatGPT, Gemini e DeepSeek se unem em um conselho de engenharia — votam, revisam e consolidam a resposta final automaticamente.
+> **ChatGPT, Gemini e DeepSeek** — todos acessados **de graça**, sem pagar um centavo.
+> Só automação de navegador + proxy aberto. O **suco do free**.
+
+<br />
 
 ---
 
@@ -32,23 +41,41 @@
 
 ## 📖 Índice
 
-- [O Problema](#-o-problema)
-- [Como Funciona](#-como-funciona)
-- [Stack](#-stack)
-- [Quick Start](#-quick-start)
-- [Fluxo do Conselho](#-fluxo-do-conselho)
-- [DeepSeek Nativo](#-deepseek-nativo)
-- [Estrutura do Projeto](#-estrutura-do-projeto)
-- [Comandos](#-comandos)
-- [Roadmap](#-roadmap)
+- [💯 100% Free — Como?](#-100-free--como)
+- [🤔 O Problema](#-o-problema)
+- [⚙️ Como Funciona](#-como-funciona)
+- [🧠 Stack](#-stack)
+- [🚀 Quick Start](#-quick-start)
+- [⚡ Fluxo do Conselho](#-fluxo-do-conselho)
+- [🔌 DeepSeek Nativo](#-deepseek-nativo)
+- [📁 Estrutura do Projeto](#-estrutura-do-projeto)
+- [📦 Comandos](#-comandos)
+- [🗺️ Roadmap](#-roadmap)
 
 ---
 
-## 🎯 O Problema
+## 💯 100% Free — Como?
+
+**Aetrius não usa nenhuma API paga.** Nada de OpenAI API key, nada de Google AI Studio, nada de DeepSeek credits.
+
+| Provedor | Método | Quanto custa? |
+|----------|--------|:-------------:|
+| **ChatGPT** | 🕸️ Playwright navega na web ChatGPT logada | **R$ 0** 🆓 |
+| **Gemini** | 🕸️ Playwright navega no Gemini logado | **R$ 0** 🆓 |
+| **DeepSeek** | 🔌 Proxy Vercel público (sem chave) | **R$ 0** 🆓 |
+| **Electron** | Desktop app local | **R$ 0** 🆓 |
+
+> Só precisa de uma conta gratuita do ChatGPT e Gemini (já existentes) e o Playwright instalado. **Zero débito no cartão.**
+
+---
+
+## 🤔 O Problema
 
 **Nenhum modelo de IA é perfeito isoladamente.** Cada LLM tem vieses, lacunas de conhecimento e padrões de erro distintos.
 
 **Aetrius resolve isso:** submete o mesmo problema para **3 modelos diferentes**, que deliberam em conselho — como um peer review de engenharia — e produzem uma **decisão consolidada e auditável**.
+
+Tudo rodando local, tudo de graça.
 
 ---
 
@@ -75,11 +102,11 @@
 
 ### Comunicação
 
-| Provedor | Método | Detalhes |
-|----------|--------|----------|
-| **ChatGPT** | 🕸️ Web Scraping via Playwright | Sessão logada, sem API key |
-| **Gemini** | 🕸️ Web Scraping via Playwright | Sessão logada, sem API key |
-| **DeepSeek** | 🔌 Proxy API nativa | `deepseek-r1` ou `deepseek-v3` via Vercel proxy |
+| Provedor | Método | Autenticação |
+|----------|--------|:------------:|
+| **ChatGPT** | 🕸️ Playwright (browser automation) | Conta gratuita |
+| **Gemini** | 🕸️ Playwright (browser automation) | Conta gratuita |
+| **DeepSeek** | 🔌 API via Vercel proxy | Nenhuma |
 
 ---
 
@@ -90,7 +117,7 @@
 | **Desktop** | Electron 30+ |
 | **Frontend** | Vue 3 + Pinia + Tailwind CSS |
 | **Automação** | Playwright (Chromium headless) |
-| **Consolidação** | DeepSeek API via Vercel proxy |
+| **Consolidação** | DeepSeek API via proxy público |
 | **Banco** | SQLite via better-sqlite3 |
 | **Build** | Vite 5 + electron-builder |
 
@@ -133,7 +160,7 @@ npm run build
 ### Prompt template (DeepSeek)
 
 ```
-You are DeepSeek R1 acting as the final senior engineering adjudicator.
+You are DeepSeek acting as the final senior engineering adjudicator.
 Goal: consolidate ChatGPT and Gemini responses.
 
 1. Final Decision
@@ -150,11 +177,12 @@ Goal: consolidate ChatGPT and Gemini responses.
 
 Diferente de outros apps que abrem uma janela externa para testar DeepSeek, o **Aetrius** integra o modelo diretamente:
 
-- ✅ Proxy nativo via IPC (`deepseek:request`)
+- ✅ Proxy nativo via IPC
 - ✅ Seletor R1 ↔ V3 em tempo real
 - ✅ Terceira coluna dedicada com o mesmo design visual
 - ✅ Timeout inteligente de 5 minutos
 - ✅ Mensagens de erro visíveis dentro do chat
+- ✅ **Zero API key** — proxy público aberto
 
 ---
 
@@ -219,13 +247,15 @@ aetrius/
 
 > **Aetrius** — do latim *aether* ("o ar puro, o céu, a luz") + o sufixo *-ius*. Um oráculo digital onde três inteligências convergem para formar uma única verdade.
 
+> Tudo de graça, porque inteligência não deveria ter paywall.
+
 ---
 
 <div align="center">
 
 <br />
 
-**Feito com ☕, pouca paciência e muito Playwright.**
+**Feito com ☕, pouca paciência, muito Playwright e R$ 0,00 de API.**
 
 <br />
 
