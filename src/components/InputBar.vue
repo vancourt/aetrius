@@ -2,6 +2,17 @@
   <div class="border-t border-gray-800 bg-gray-900 px-4 py-3 shrink-0">
     <div class="mb-2 space-y-2">
       <div class="flex flex-wrap gap-2">
+        <button
+          @click="runAutoCouncil"
+          :disabled="!text.trim() || store.workflowBusy"
+          class="rounded-full border border-yellow-600 bg-yellow-950/60 px-3.5 py-1
+                 text-[12px] font-semibold text-yellow-200 transition-colors
+                 hover:bg-yellow-900 hover:text-white
+                 disabled:cursor-not-allowed disabled:opacity-40"
+          title="Faz tudo automático: primer → mesmo prompt → cross-review → votação → ressalvas → DeepSeek"
+        >
+          ⚡ Auto Conselho
+        </button>
         <div class="inline-flex overflow-hidden rounded-full border border-purple-800 bg-purple-950/60">
           <select
             v-model="store.deepseekModel"
@@ -64,6 +75,9 @@
         </span>
         <span :class="store.deepseekLoading ? 'text-purple-300' : 'text-purple-600'">
           DeepSeek: {{ store.deepseekLoading ? 'consolidando' : deepseekModelLabel }}
+        </span>
+        <span v-if="store.autoCouncilRunning" class="text-yellow-400 font-semibold">
+          ⚡ Conselho automático em andamento...
         </span>
       </div>
     </div>
@@ -373,6 +387,15 @@ async function runWorkflowAction(actionId) {
 async function consolidateDeepSeek() {
   const result = await store.consolidateWithDeepSeek()
   if (result?.error) alert(result.error)
+  await nextTick()
+  if (inputRef.value) inputRef.value.focus()
+}
+
+async function runAutoCouncil() {
+  if (!text.value.trim()) return
+  const result = await store.runFullAutoCouncil(text.value)
+  if (result?.error) alert(result.error)
+  if (result?.success) text.value = ''
   await nextTick()
   if (inputRef.value) inputRef.value.focus()
 }

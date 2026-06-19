@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { api } from '../api.js'
 import { COUNCIL_TEMPLATES, renderTemplate } from '../councilTemplates.js'
 
@@ -18,6 +18,7 @@ export const useChatStore = defineStore('chat', () => {
   const chatgptMsgCount = ref(0)
   const geminiMsgCount = ref(0)
   const providerLoading = ref({ chatgpt: false, gemini: false })
+  const autoCouncilRunning = ref(false)
   const deepseekModel = ref('deepseek-r1')
   const deepseekMessages = ref([])
   const deepseekLoading = ref(false)
@@ -38,7 +39,7 @@ export const useChatStore = defineStore('chat', () => {
 
   const lastMessages = computed(() => messages.value.slice(-100))
   const bothModelsConnected = computed(() => chatgptConnected.value && geminiConnected.value)
-  const workflowBusy = computed(() => sending.value || providerLoading.value.chatgpt || providerLoading.value.gemini || deepseekLoading.value)
+  const workflowBusy = computed(() => sending.value || providerLoading.value.chatgpt || providerLoading.value.gemini || deepseekLoading.value || autoCouncilRunning.value)
   const canSendSamePromptToBoth = computed(() => bothModelsConnected.value && !workflowBusy.value)
   const canCrossReview = computed(() => bothModelsConnected.value && !workflowBusy.value &&
     !!council.value.userPrompt && !!council.value.modelAResponse && !!council.value.modelBResponse)
@@ -436,6 +437,73 @@ Be concise. If one model is wrong, say exactly why. If evidence is insufficient,
     }
   }
 
+  function waitForBothProviders(timeoutMs = 300000) {
+    return new Promise((resolve, reject) => {
+      if (!providerLoading.value.chatgpt && !providerLoading.value.gemini && !council.value.pendingPhase) {
+        return setTimeout(resolve, 300)
+      }
+
+      const timeout = setTimeout(() => {
+        stop()
+        reject(new Error('Tempo limite excedido aguardando respostas dos provedores.'))
+      }, timeoutMs)
+
+      const stop = watch(
+        providerLoading,
+        (val) => {
+          if (!val.chatgpt && !val.gemini && !council.value.pendingPhase) {
+            clearTimeout(timeout)
+            stop()
+            setTimeout(resolve, 300)
+          }
+        },
+        { deep: true }
+      )
+    })
+  }
+
+  async function runFullAutoCouncil(text) {
+    const cleanText = String(text || '').trim()
+    if (!cleanText) return { error: 'Texto vazio' }
+    if (workflowBusy.value) return { error: 'Fluxo ocupado. Aguarde as respostas terminarem.' }
+
+    autoCouncilRunning.value = true
+    const STEP_TIMEOUT = 300000
+
+    try {
+      // Step 1: Primer
+      await sendCouncilPrimer()
+      await waitForBothProviders(STEP_TIMEOUT)
+
+      // Step 2: Same prompt
+      resetCouncilForPrompt(cleanText)
+      await sendSamePromptToBoth(cleanText)
+      await waitForBothProviders(STEP_TIMEOUT)
+
+      // Step 3: Cross-review
+      await sendCrossReviewBothAnswers()
+      await waitForBothProviders(STEP_TIMEOUT)
+
+      // Step 4: Final vote
+      await sendFinalDecisionVote()
+      await waitForBothProviders(STEP_TIMEOUT)
+
+      // Step 5: Final answer
+      await sendApplyCaveatsFinalAnswer()
+      await waitForBothProviders(STEP_TIMEOUT)
+
+      // Step 6: DeepSeek consolidation
+      await consolidateWithDeepSeek()
+
+      return { success: true }
+
+    } catch (err) {
+      return { error: err.message || 'Erro durante o conselho automático.' }
+    } finally {
+      autoCouncilRunning.value = false
+    }
+  }
+
   async function forwardMessage(msg) {
     if (!msg?.content || !msg.provider || msg.role === 'user' || sending.value) return
 
@@ -521,6 +589,7 @@ Be concise. If one model is wrong, say exactly why. If evidence is insufficient,
     deepseekModel,
     deepseekMessages,
     deepseekLoading,
+    autoCouncilRunning,
     selectedMessageIds,
     workflowBusy,
     round,
@@ -541,6 +610,7 @@ Be concise. If one model is wrong, say exactly why. If evidence is insufficient,
     sendFinalDecisionVote,
     sendApplyCaveatsFinalAnswer,
     consolidateWithDeepSeek,
+    runFullAutoCouncil,
     forwardMessage,
     selectedMessage,
     toggleSelectedMessage,
