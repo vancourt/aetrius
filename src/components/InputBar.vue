@@ -4,14 +4,14 @@
       <div class="flex flex-wrap gap-2">
         <button
           @click="runAutoCouncil"
-          :disabled="!text.trim() || store.workflowBusy"
+          :disabled="!text.trim() || store.workflowBusy || store.autoCouncilRunning"
           class="rounded-full border border-yellow-600 bg-yellow-950/60 px-3.5 py-1
                  text-[12px] font-semibold text-yellow-200 transition-colors
                  hover:bg-yellow-900 hover:text-white
                  disabled:cursor-not-allowed disabled:opacity-40"
           title="Faz tudo automático: primer → mesmo prompt → cross-review → votação → ressalvas → DeepSeek"
         >
-          ⚡ Auto Conselho
+          {{ store.autoCouncilRunning ? '⏳ Rodando...' : '⚡ Auto Conselho' }}
         </button>
         <div class="inline-flex overflow-hidden rounded-full border border-purple-800 bg-purple-950/60">
           <select

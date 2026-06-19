@@ -39,7 +39,7 @@ export const useChatStore = defineStore('chat', () => {
 
   const lastMessages = computed(() => messages.value.slice(-100))
   const bothModelsConnected = computed(() => chatgptConnected.value && geminiConnected.value)
-  const workflowBusy = computed(() => sending.value || providerLoading.value.chatgpt || providerLoading.value.gemini || deepseekLoading.value || autoCouncilRunning.value)
+  const workflowBusy = computed(() => sending.value || providerLoading.value.chatgpt || providerLoading.value.gemini || deepseekLoading.value)
   const canSendSamePromptToBoth = computed(() => bothModelsConnected.value && !workflowBusy.value)
   const canCrossReview = computed(() => bothModelsConnected.value && !workflowBusy.value &&
     !!council.value.userPrompt && !!council.value.modelAResponse && !!council.value.modelBResponse)
